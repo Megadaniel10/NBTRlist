@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonlist</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-skull"></i> DEMONLIST
+        </div>
+        <nav class="nav-links">
+            <button class="nav-btn active" data-target="main-list">Main List</button>
+            <button class="nav-btn" data-target="stats-viewer">Stats Viewer</button>
+            <button class="nav-btn" data-target="da-verificare">Da Verificare</button>
+            <button id="theme-toggle" class="theme-btn" title="Toggle Tema">
+                <i class="fas fa-sun"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="content">
+        <!-- SEZIONE: MAIN LIST -->
+        <section id="main-list" class="page-section active">
+            <div class="section-header">
+                <h1>Main List</h1>
+                <p>La classifica ufficiale dei demon più ardui della nostra community.</p>
+            </div>
+            <div id="levels-container" class="levels-container">
+                <!-- Generato da JS -->
+            </div>
+        </section>
+
+        <!-- SEZIONE: STATS VIEWER -->
+        <section id="stats-viewer" class="page-section">
+            <div class="section-header">
+                <h1>Stats Viewer</h1>
+                <p>I migliori giocatori ordinati per punti accumulati sulla lista.</p>
+            </div>
+            <div id="players-container" class="players-container">
+                <!-- Generato da JS -->
+            </div>
+        </section>
+
+        <!-- SEZIONE: DA VERIFICARE -->
+        <section id="da-verificare" class="page-section">
+            <div class="section-header">
+                <h1>Da Verificare</h1>
+                <p>Livelli in fase di verifica e showcase work-in-progress.</p>
+            </div>
+            <div id="upcoming-container" class="upcoming-container">
+                <!-- Generato da JS -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
