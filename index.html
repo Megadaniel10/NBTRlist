@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demonlist</title>
+    <title>Italian Demonlist</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
 </head>
 <body class="dark-mode">
 
-    <!-- Navbar -->
+    <!-- Header / Navbar -->
     <header class="navbar">
         <div class="nav-brand">
             <i class="fas fa-skull"></i> DEMONLIST
@@ -23,46 +23,68 @@
             <button class="nav-btn active" data-target="main-list">Main List</button>
             <button class="nav-btn" data-target="stats-viewer">Stats Viewer</button>
             <button class="nav-btn" data-target="da-verificare">Da Verificare</button>
-            <button id="theme-toggle" class="theme-btn" title="Toggle Tema">
+            <button id="theme-toggle" class="theme-btn" title="Toggle Dark/Light Mode">
                 <i class="fas fa-sun"></i>
             </button>
         </nav>
     </header>
 
+    <!-- Main Content Area -->
     <main class="content">
-        <!-- SEZIONE: MAIN LIST -->
+        
+        <!-- MAIN LIST SECTION -->
         <section id="main-list" class="page-section active">
             <div class="section-header">
                 <h1>Main List</h1>
-                <p>La classifica ufficiale dei demon più ardui della nostra community.</p>
+                <p>La classifica dei livelli più difficili completati dalla community.</p>
+                <p><small><em>Clicca su un livello per aprire la scheda completa.</em></small></p>
             </div>
             <div id="levels-container" class="levels-container">
                 <!-- Generato da JS -->
             </div>
         </section>
 
-        <!-- SEZIONE: STATS VIEWER -->
+        <!-- STATS VIEWER SECTION -->
         <section id="stats-viewer" class="page-section">
             <div class="section-header">
                 <h1>Stats Viewer</h1>
-                <p>I migliori giocatori ordinati per punti accumulati sulla lista.</p>
+                <p>I giocatori con più punti accumulati sulla lista.</p>
             </div>
             <div id="players-container" class="players-container">
                 <!-- Generato da JS -->
             </div>
         </section>
 
-        <!-- SEZIONE: DA VERIFICARE -->
+        <!-- DA VERIFICARE SECTION -->
         <section id="da-verificare" class="page-section">
             <div class="section-header">
                 <h1>Da Verificare</h1>
-                <p>Livelli in fase di verifica e showcase work-in-progress.</p>
+                <p>Livelli in fase di verifica o con record mondiali (WR) non ancora completati.</p>
             </div>
             <div id="upcoming-container" class="upcoming-container">
                 <!-- Generato da JS -->
             </div>
         </section>
     </main>
+
+    <!-- MODAL PER IL LIVELLO -->
+    <div id="level-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-media" class="modal-media-container"></div>
+            <div class="modal-info">
+                <div class="modal-header">
+                    <h2 id="modal-title">Nome Livello</h2>
+                    <span id="modal-points" class="modal-points">0 pt</span>
+                </div>
+                <p id="modal-creators" class="modal-creators"></p>
+                <div class="modal-stats">
+                    <div class="stat-box"><i class="fas fa-fingerprint"></i> ID: <span id="modal-id"></span></div>
+                    <div class="stat-box"><i class="fas fa-skull"></i> Difficoltà: <span id="modal-diff"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
