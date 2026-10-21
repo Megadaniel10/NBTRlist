@@ -1,146 +1,518 @@
-/* CSS Variabili (Dark/Light Mode) */
-:root {
-    --bg-main: #0b0c10;
-    --bg-navbar: #1f2833;
-    --bg-card: #1f2833;
-    --bg-card-hover: #293441;
-    --text-main: #c5c6c7;
-    --text-title: #ffffff;
-    --accent: #66fcf1;
-    --accent-dim: #45a29e;
-    --border-color: #293441;
-    --shadow: 0 10px 20px rgba(0,0,0,0.5);
+// =========================================
+// 1. DATABASE LIVELLI (Con nuovi Top 1 e Top 2)
+// =========================================
+const levels = [
+    { rank: 1, name: "Daniel Never clear", creator: "SoyXmirzioo", verifier: "SoyXmirzioo", id: "150990043", diff: "Hard demon", pts: 400, yt: "toAdhnXzO7c" },
+    { rank: 2, name: "SoyXmirzioo Test 2", creator: "SoyXmirzioo", verifier: "SoyXmirzioo", id: "141019336", diff: "Medium demon", pts: 375, yt: "Pw-IpOrTx1k" },
+    { rank: 3, name: "Grief easy", creator: "LDexxi", verifier: "SoyXmirzioo", id: "81978987", diff: "Medium demon", pts: 350, yt: "Ic3Vv5qZKe0" },
+    { rank: 4, name: "Splatfest (Remake)", creator: "Megadaniel (Orig: FILORGIO2)", verifier: "Megadaniel", id: "147929029", diff: "Easy-Medium demon", pts: 330, yt: "jpobdxhpSbk" },
+    { rank: 5, name: "Soundbreaker", creator: "SoyXmirzioo", verifier: "SoyXmirzioo", id: "149504175", diff: "Easy demon", pts: 315, yt: "eozqhAo_cHE" },
+    { rank: 6, name: "Better Plane (Balanced)", creator: "Megadaniel", verifier: "Megadaniel", id: "147349014", diff: "Easy-Medium demon", pts: 300, yt: "psfIlpNLo5E" },
+    { rank: 7, name: "BloodFart", creator: "Megadaniel (Orig: Riot)", verifier: "Megadaniel", id: "147349014", diff: "Insane/Easy demon", pts: 250, yt: "FLzAPJUbTls" },
+    { rank: 8, name: "Ci sei cascato (OG)", creator: "Megadaniel", verifier: "SoyXmirzioo", id: "N/A", diff: "Insane", pts: 230, yt: "Z_E5YUMBZ4o" },
+    { rank: 9, name: "Spyke Frost", creator: "Fasghki", verifier: "Megadaniel", id: "141091379", diff: "EXTREME ULTRA OBSIDIAN TORTURED BALLS DEMON", pts: 220, yt: "WvA2Bo6ryeU" },
+    { rank: 10, name: "Night Sky", creator: "Megadaniel & FILORGIO2", verifier: "Megadaniel", id: "144139247", diff: "Insane", pts: 200, yt: "jCvwuQBtQ4s" },
+    { rank: 11, name: "Ci sei cascato", creator: "Megadaniel", verifier: "Megadaniel", id: "140467007", diff: "Harder-Insane", pts: 150, yt: "9yzBfKbcbMw" },
+    { rank: 12, name: "Impossible damiano", creator: "Megadaniel", verifier: "Megadaniel", id: "147195245", diff: "Insane", pts: 120, yt: "iW2ySWKhopI" },
+    { rank: 13, name: "Not even close", creator: "Megadaniel", verifier: "Megadaniel", id: "147854114", diff: "Unknown", pts: 100, yt: "M3kwmdelELM" },
+    { rank: 14, name: "Daniel Challenge", creator: "Leonardigno (Alexins)", verifier: "Megadaniel", id: "128031270", diff: "Harder", pts: 60, yt: "JxfawlEj7kU" },
+    { rank: 15, name: "Good Wave", creator: "Megadaniel", verifier: "Megadaniel", id: "141767286", diff: "Harder", pts: 50, yt: "ixbB1LOiOOI" },
+    { rank: 16, name: "Splatfest (OG)", creator: "FILORGIO2", verifier: "SoyXmirzioo", id: "Unknown", diff: "Hard", pts: 30, yt: "itFccrd7dWY" },
+    { rank: 17, name: "Good plane", creator: "Leonardigno", verifier: "Vivincente", id: "76320355", diff: "Unknown", pts: 20, yt: "ixbB1LOiOOI" },
+    { rank: 18, name: "House", creator: "Danc-ehh-massacurhe", verifier: "SoyXmirzioo", id: "75308517", diff: "Normal", pts: 15, yt: null, img: "https://external-preview.redd.it/laughterhouse-v0-DW8YXICwj38OhKboqKFyaRylbU6Xs121p38gGu3h6qY.jpg?auto=webp&s=d2c56bae027789d61aaa011cfd0973f58b3bd708" },
+    { rank: 19, name: "LaughterHouse", creator: "Gesù di nazareth", verifier: "Megadaniel", id: "71354187", diff: "Easy demon", pts: 10, yt: null, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyJr-G1YKtbgBMxpZNfGb3bBccvRxrjgH3O9Y8jhdbGedVa5ys-IKXEEM&s=10" }
+];
+
+// Calcolo automatico punti
+function getPts(listNames) {
+    let total = 0;
+    listNames.forEach(n => {
+        const lvl = levels.find(l => l.name.toLowerCase() === n.toLowerCase());
+        if (lvl) total += lvl.pts;
+    });
+    return total;
+}
+
+// Completamenti di SoyXmirzioo (inclusi i nuovi Top 1 e Top 2 da lui verificati)
+const soyExcludes = ["Better Plane (Balanced)", "Splatfest (Remake)", "Splatfest (OG)", "Impossible damiano", "BloodFart", "Good plane", "Daniel Challenge"];
+const soyCompleted = levels.map(l => l.name).filter(n => !soyExcludes.includes(n));
+
+// Completamenti di Megadaniel (esclusi i nuovi Top 1 e Top 2, Grief easy, Soundbreaker, House, Splatfest OG)
+const megaExcludes = ["Daniel Never clear", "SoyXmirzioo Test 2", "Grief easy", "Soundbreaker", "House", "Splatfest (OG)"];
+const megaCompleted = levels.map(l => l.name).filter(n => !megaExcludes.includes(n));
+
+// =========================================
+// 2. DATABASE GIOCATORI + GD ICON EXTRACTOR
+// =========================================
+const players = [
+    {
+        name: "SoyxMirzioo",
+        gdSearchName: "SoyXmirzioo",
+        fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=45&col1=9&col2=12&glow=1",
+        flag: "https://flagcdn.com/32x24/it.png",
+        verified: "17 demon (10 easy, 3 medium, 4 hard)",
+        unverified: "Nessun record unverified",
+        hardest: "Daniel Never clear",
+        completed: soyCompleted,
+        pts: getPts(soyCompleted),
+        progress: [
+            { name: "Shitty bloodbath", label: "31% (53-100%)", val: 31 },
+            { name: "Bloodfart", label: "71%", val: 71 },
+            { name: "Sakupen kirkles (Marzio unnerfed)", label: "67%", val: 67 },
+            { name: "Lutto semplificato", label: "30% (23-82, 74-100)", val: 30 },
+            { name: "Merz Circles", label: "13%", val: 13 }
+        ]
+    },
+    {
+        name: "Megadaniel",
+        gdSearchName: "Megadaniel",
+        fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=12&col1=11&col2=3&glow=1",
+        flag: "https://flagcdn.com/32x24/it.png",
+        verified: "4 demon (4 easy)",
+        unverified: "Nessun record unverified",
+        hardest: "Splatfest (Remake)",
+        completed: megaCompleted,
+        pts: getPts(megaCompleted),
+        progress: [
+            { name: "Shitty limbo", label: "71%", val: 71 },
+            { name: "Sakupen kirkles (Daniel Unnerfed)", label: "67%", val: 67 },
+            { name: "Grimwire", label: "66%", val: 66 },
+            { name: "Tortura Medievale unnerfed", label: "34% (64-100%)", val: 34 },
+            { name: "Crudo Calcestruzzo", label: "22% (11-34%)", val: 22 },
+            { name: "Cobra", label: "12% (20-49%)", val: 12 },
+            { name: "Silent Frost", label: "4%", val: 4 }
+        ]
+    },
+    {
+        name: "Leonardigno",
+        gdSearchName: "Leonardigno",
+        fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=23&col1=14&col2=15&glow=1",
+        flag: "",
+        verified: "4 demon (3 easy, 1 medium)",
+        unverified: "61 demon (39 easy, 7 medium, 2 hard, 2 insane, 3 extreme)",
+        hardest: "Ci sei cascato",
+        completed: ["Ci sei cascato", "Daniel Challenge", "Good plane"],
+        pts: getPts(["Ci sei cascato", "Daniel Challenge", "Good plane"]),
+        progress: [
+            { name: "Better plane (unnerfed)", label: "30%", val: 30 }
+        ]
+    },
+    {
+        name: "Diego calvani",
+        gdSearchName: "RobTop",
+        fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=1&col1=2&col2=3&glow=1",
+        flag: "",
+        verified: "Tutti i demon del gioco",
+        unverified: "Nessuno",
+        hardest: "Fingerding (RECORD MONDIALE IN 3 JUMP)",
+        completed: ["Fingerding", "Dash", "Unnerfed silent open window"],
+        pts: 0,
+        progress: [
+            { name: "Centocelle", label: "50%", val: 50 }
+        ]
+    },
+    {
+        name: "Steffo242",
+        gdSearchName: "Steffo242",
+        fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=98&col1=6&col2=12&glow=1",
+        flag: "",
+        verified: "1 demon (1 easy)",
+        unverified: "8 demon (1 easy, 1 easy platformer, 2 weekly, 4 extreme)",
+        hardest: "N/A",
+        completed: [],
+        pts: 0,
+        progress: []
+    }
+];
+
+players.sort((a, b) => b.pts - a.pts);
+
+// Cache per le icone estratte dal GD Database
+const gdIconCache = {};
+
+async function fetchGDIcon(player) {
+    if (gdIconCache[player.name]) return gdIconCache[player.name];
     
-    --gold: #ffd700;
-    --silver: #c0c0c0;
-    --bronze: #cd7f32;
-    --verified-bg: rgba(46, 204, 113, 0.1);
-    --verified-text: #2ecc71;
-    --unverified-bg: rgba(231, 76, 60, 0.1);
-    --unverified-text: #e74c3c;
+    // URL diretto di GDBrowser che estrae l'icona dal database di Geometry Dash tramite username
+    const directRenderUrl = `https://gdbrowser.com/icon/${encodeURIComponent(player.gdSearchName)}?form=cube`;
+    
+    try {
+        const res = await fetch(`https://gdbrowser.com/api/profile/${encodeURIComponent(player.gdSearchName)}`);
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.username) {
+                const exactIconUrl = `https://gdbrowser.com/icon/icon?form=cube&icon=${data.icon || 1}&col1=${data.col1 || 0}&col2=${data.col2 || 3}&glow=${data.glow ? 1 : 0}`;
+                gdIconCache[player.name] = { url: exactIconUrl, stars: data.stars, demons: data.demons, found: true };
+                return gdIconCache[player.name];
+            }
+        }
+    } catch (e) {
+        // Fallback diretto all'endpoint immagine di GDBrowser
+    }
+    
+    gdIconCache[player.name] = { url: directRenderUrl, fallback: player.fallbackIcon, found: false };
+    return gdIconCache[player.name];
 }
 
-body.light-mode {
-    --bg-main: #f4f4f9;
-    --bg-navbar: #2b2d42;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f8f9fa;
-    --text-main: #4a4e69;
-    --text-title: #2b2d42;
-    --accent: #ef233c;
-    --accent-dim: #d90429;
-    --border-color: #dee2e6;
-    --shadow: 0 10px 20px rgba(0,0,0,0.08);
+// =========================================
+// 3. RENDER MAIN LIST (SINISTRA + DESTRA)
+// =========================================
+let selectedLevelRank = 1;
+
+function getLevelThumb(lvl) {
+    return lvl.yt ? `https://img.youtube.com/vi/${lvl.yt}/mqdefault.jpg` : lvl.img;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Open Sans', sans-serif; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
-body { background-color: var(--bg-main); color: var(--text-main); overflow-x: hidden; }
-h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; color: var(--text-title); text-transform: uppercase; }
+function renderLevelsList(filterText = "") {
+    const container = document.getElementById("levels-list-container");
+    container.innerHTML = "";
 
-/* NAVBAR */
-.navbar { background-color: var(--bg-navbar); display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.4); position: sticky; top: 0; z-index: 1000; }
-.nav-brand { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.8rem; color: var(--accent); letter-spacing: 2px; display: flex; align-items: center; gap: 12px; }
-.nav-links { display: flex; gap: 1.5rem; align-items: center; }
-.nav-btn { background: transparent; border: none; color: #a0a0a0; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.95rem; cursor: pointer; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s ease; }
-body.light-mode .nav-btn { color: #d0d0d0; }
-body.light-mode .nav-btn:hover, body.light-mode .nav-btn.active { color: #fff; background-color: var(--accent); }
-.nav-btn:hover, .nav-btn.active { color: var(--bg-main); background-color: var(--accent); }
-.theme-btn { background: transparent; border: none; color: var(--accent); font-size: 1.4rem; cursor: pointer; margin-left: 1rem; transition: transform 0.2s; }
-.theme-btn:hover { transform: rotate(20deg); }
+    const filtered = levels.filter(l => 
+        l.name.toLowerCase().includes(filterText.toLowerCase()) ||
+        l.creator.toLowerCase().includes(filterText.toLowerCase()) ||
+        l.verifier.toLowerCase().includes(filterText.toLowerCase())
+    );
 
-/* CONTENT AREA */
-.content { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
-.page-section { display: none; animation: slideUp 0.4s ease forwards; }
-.page-section.active { display: block; }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    filtered.forEach(lvl => {
+        const rankClass = lvl.rank === 1 ? 'rank-1' : lvl.rank === 2 ? 'rank-2' : lvl.rank === 3 ? 'rank-3' : '';
+        const isSelected = lvl.rank === selectedLevelRank ? 'selected' : '';
 
-.section-header { text-align: center; margin-bottom: 4rem; position: relative; }
-.section-header h1 { font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; letter-spacing: 1px; }
-.section-header h1::after { content: ''; display: block; width: 60px; height: 4px; background-color: var(--accent); margin: 15px auto 0; border-radius: 2px; }
-.section-header p { font-size: 1.1rem; color: var(--text-main); opacity: 0.8; }
+        const card = document.createElement("div");
+        card.className = `list-item-card ${rankClass} ${isSelected}`;
+        card.innerHTML = `
+            <div class="item-rank">#${lvl.rank}</div>
+            <div class="item-thumb">
+                <img src="${getLevelThumb(lvl)}" alt="${lvl.name}">
+            </div>
+            <div class="item-info">
+                <div class="item-title">${lvl.name}</div>
+                <div class="item-sub">by <strong>${lvl.creator}</strong></div>
+            </div>
+            <div class="item-pts">${lvl.pts} PT</div>
+        `;
 
-/* LEVEL CARDS */
-.levels-container { display: flex; flex-direction: column; gap: 1.5rem; }
-.level-card { display: flex; background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; height: 160px; cursor: pointer; }
-.level-card:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.6); background-color: var(--bg-card-hover); border-color: var(--accent-dim); }
-.level-rank { width: 90px; background-color: var(--bg-navbar); color: var(--text-title); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; border-right: 2px solid var(--border-color); }
-.level-rank span { font-size: 2.2rem; font-weight: 900; }
-.level-thumb { width: 280px; position: relative; overflow: hidden; background: #000; flex-shrink: 0; }
-.level-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s, transform 0.5s; }
-.level-card:hover .level-thumb img { opacity: 1; transform: scale(1.08); }
-.level-thumb::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(to right, transparent, var(--bg-card)); pointer-events: none; }
-.level-info { padding: 1.5rem 2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-.level-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-.level-title-row h2 { font-size: 1.8rem; margin: 0; }
-.level-points { font-family: 'Montserrat', sans-serif; font-weight: 900; color: var(--accent); font-size: 1.3rem; }
-.level-creators { font-size: 0.95rem; margin-bottom: 0.5rem; }
-.level-creators strong { color: var(--text-title); }
+        card.addEventListener("click", () => {
+            selectedLevelRank = lvl.rank;
+            renderLevelsList(document.getElementById("level-search").value);
+            renderLevelDetail(lvl);
+        });
 
-/* MODAL / SCHEDA LIVELLO */
-.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
-.modal.open { display: flex; align-items: center; justify-content: center; animation: fadeInModal 0.3s ease; }
-@keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-.modal-content { background-color: var(--bg-card); margin: auto; padding: 2rem; border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 800px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-.close-modal { color: var(--text-muted); float: right; font-size: 28px; font-weight: bold; position: absolute; right: 20px; top: 15px; cursor: pointer; transition: color 0.2s; }
-.close-modal:hover { color: var(--accent); }
-.modal-media-container { width: 100%; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; background: #000; }
-.modal-media-container iframe, .modal-media-container img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem; }
-.modal-header h2 { font-size: 2.2rem; margin: 0; }
-.modal-points { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 900; color: var(--accent); background: rgba(102, 252, 241, 0.1); padding: 5px 15px; border-radius: 20px; }
-.modal-stats { display: flex; gap: 2rem; margin-top: 1.5rem; }
-.stat-box { background: var(--bg-navbar); padding: 10px 20px; border-radius: 6px; font-weight: 600; border: 1px solid var(--border-color); }
-.stat-box i { color: var(--accent); margin-right: 8px; }
-
-/* STATS VIEWER */
-.players-container { display: flex; flex-direction: column; gap: 1.5rem; }
-.player-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); display: flex; gap: 2rem; }
-.player-rank-col { display: flex; flex-direction: column; align-items: center; min-width: 80px; }
-.player-rank-num { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 3rem; color: var(--text-main); }
-.rank-1 .player-rank-num { color: var(--gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
-.rank-2 .player-rank-num { color: var(--silver); text-shadow: 0 0 10px rgba(192, 192, 192, 0.4); }
-.rank-3 .player-rank-num { color: var(--bronze); text-shadow: 0 0 10px rgba(205, 127, 50, 0.4); }
-.player-content { flex-grow: 1; }
-.player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; }
-.player-name { font-size: 2.2rem; display: flex; align-items: center; gap: 15px; }
-.flag { width: 32px; height: 22px; border-radius: 3px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-.player-total-pts { font-size: 2rem; font-weight: 900; color: var(--accent); font-family: 'Montserrat', sans-serif; }
-.player-details { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-
-/* Badge Verified/Unverified */
-.records-section { margin-bottom: 1rem; }
-.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 900; margin-bottom: 5px; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; }
-.badge-verified { background: var(--verified-bg); color: var(--verified-text); border: 1px solid var(--verified-text); }
-.badge-unverified { background: var(--unverified-bg); color: var(--unverified-text); border: 1px solid var(--unverified-text); }
-.detail-block p { font-size: 0.95rem; line-height: 1.6; }
-.list-levels { list-style: none; margin-top: 10px; }
-.list-levels li { margin-bottom: 0.5rem; padding-left: 15px; position: relative; font-size: 0.95rem; }
-.list-levels li::before { content: "▹"; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
-
-/* Progress bar */
-.prog-wrapper { margin-top: 10px; }
-.prog-text { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;}
-.prog-bar-bg { height: 6px; background-color: var(--bg-navbar); border-radius: 3px; margin-top: 4px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
-.prog-bar-fill { height: 100%; background-color: var(--accent); border-radius: 3px; }
-
-/* UPCOMING LIST */
-.upcoming-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-.upcoming-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-left: 5px solid var(--accent-dim); border-radius: 8px; padding: 1.5rem; box-shadow: var(--shadow); transition: transform 0.2s; }
-.upcoming-card:hover { transform: translateY(-3px); border-left-color: var(--accent); }
-.upcoming-card h3 { margin-bottom: 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-.upcoming-card p { font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-.upcoming-card p i { color: var(--gold); }
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-    .level-card { flex-direction: column; height: auto; }
-    .level-rank { width: 100%; height: 50px; flex-direction: row; gap: 15px; border-right: none; border-bottom: 1px solid var(--border-color); }
-    .level-thumb { width: 100%; height: 180px; }
-    .level-thumb::after { background: linear-gradient(to bottom, transparent, var(--bg-card)); }
-    .level-title-row { flex-direction: column; align-items: flex-start; gap: 5px; }
-    .player-card { flex-direction: column; gap: 1rem; }
-    .player-rank-col { flex-direction: row; gap: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;}
-    .player-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .player-details { grid-template-columns: 1fr; }
-    .navbar { flex-direction: column; padding: 1rem; gap: 1rem; }
+        container.appendChild(card);
+    });
 }
+
+function renderLevelDetail(lvl) {
+    const pane = document.getElementById("level-detail-pane");
+    
+    const mediaHtml = lvl.yt 
+        ? `<iframe src="https://www.youtube.com/embed/${lvl.yt}?rel=0" frameborder="0" allowfullscreen></iframe>`
+        : `<img src="${lvl.img}" alt="${lvl.name}">`;
+
+    // Trova quali player della lista hanno battuto questo livello
+    const victors = players.filter(p => p.completed.some(c => c.toLowerCase() === lvl.name.toLowerCase()));
+    const victorsHtml = victors.length 
+        ? victors.map(v => `<span class="level-pill" onclick="jumpToPlayer('${v.name}')"><i class="fas fa-user-check"></i> ${v.name} <span>100%</span></span>`).join('')
+        : `<p style="color:var(--text-secondary);">Nessun completamento registrato nello Stats Viewer.</p>`;
+
+    pane.innerHTML = `
+        <div class="detail-animate">
+            <div class="media-showcase">
+                ${mediaHtml}
+            </div>
+
+            <div class="detail-header">
+                <div class="detail-title-group">
+                    <h1><span class="rank-pill">#${lvl.rank}</span> ${lvl.name}</h1>
+                    <p style="color:var(--text-secondary); margin-top:8px; font-size:1.05rem;">
+                        Pubblicato nella Demonlist Ufficiale &bull; Difficoltà: <strong style="color:var(--text-primary);">${lvl.diff}</strong>
+                    </p>
+                </div>
+                <div class="detail-points-badge">
+                    <span>Valore Lista</span>
+                    <strong>${lvl.pts} PT</strong>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-pencil-ruler"></i></div>
+                    <div class="stat-content">
+                        <small>Creatore</small>
+                        <strong>${lvl.creator}</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-check-double"></i></div>
+                    <div class="stat-content">
+                        <small>Verificatore</small>
+                        <strong>${lvl.verifier}</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-fingerprint"></i></div>
+                    <div class="stat-content">
+                        <small>Level ID</small>
+                        <strong>${lvl.id}</strong>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-skull-crossbones"></i></div>
+                    <div class="stat-content">
+                        <small>Rating</small>
+                        <strong>${lvl.diff}</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <h3><i class="fas fa-trophy" style="color:var(--gold);"></i> Completato da (${victors.length})</h3>
+                <div class="completed-pills">
+                    ${victorsHtml}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// =========================================
+// 4. RENDER STATS VIEWER (SINISTRA + DESTRA)
+// =========================================
+let selectedPlayerIndex = 0;
+
+function renderPlayersList(filterText = "") {
+    const container = document.getElementById("players-list-container");
+    container.innerHTML = "";
+
+    players.forEach((p, idx) => {
+        if (!p.name.toLowerCase().includes(filterText.toLowerCase())) return;
+
+        const rankClass = idx === 0 ? 'rank-1' : idx === 1 ? 'rank-2' : idx === 2 ? 'rank-3' : '';
+        const isSelected = idx === selectedPlayerIndex ? 'selected' : '';
+        const directIcon = `https://gdbrowser.com/icon/${encodeURIComponent(p.gdSearchName)}?form=cube`;
+
+        const card = document.createElement("div");
+        card.className = `list-item-card ${rankClass} ${isSelected}`;
+        card.innerHTML = `
+            <div class="item-rank">#${idx + 1}</div>
+            <div class="gd-avatar-mini">
+                <img id="mini-gd-${idx}" src="${directIcon}" onerror="this.src='${p.fallbackIcon}'" alt="${p.name}">
+            </div>
+            <div class="item-info">
+                <div class="item-title" style="display:flex; align-items:center; gap:8px;">
+                    ${p.name}
+                    ${p.flag ? `<img src="${p.flag}" style="width:20px; border-radius:2px;">` : ''}
+                </div>
+                <div class="item-sub">Hardest: <strong>${p.hardest}</strong></div>
+            </div>
+            <div class="item-pts">${p.pts} PT</div>
+        `;
+
+        card.addEventListener("click", () => {
+            selectedPlayerIndex = idx;
+            renderPlayersList(document.getElementById("player-search").value);
+            renderPlayerDetail(p, idx);
+        });
+
+        container.appendChild(card);
+
+        // Aggiorna icona dal GD Database API se disponibile
+        fetchGDIcon(p).then(res => {
+            const imgEl = document.getElementById(`mini-gd-${idx}`);
+            if (imgEl && res.found) imgEl.src = res.url;
+        });
+    });
+}
+
+async function renderPlayerDetail(p, idx) {
+    const pane = document.getElementById("player-detail-pane");
+    const directIcon = `https://gdbrowser.com/icon/${encodeURIComponent(p.gdSearchName)}?form=cube`;
+
+    const completedHtml = p.completed.length
+        ? p.completed.map(cName => {
+            const foundLvl = levels.find(l => l.name.toLowerCase() === cName.toLowerCase());
+            const rankStr = foundLvl ? `#${foundLvl.rank}` : '';
+            const ptsStr = foundLvl ? `+${foundLvl.pts}pt` : '';
+            return `<div class="level-pill" onclick="jumpToLevel('${cName}')">
+                        <span>${rankStr}</span> ${cName} <small style="opacity:0.7;">${ptsStr}</small>
+                    </div>`;
+        }).join('')
+        : `<p style="color:var(--text-secondary);">Nessun livello completato.</p>`;
+
+    const progressHtml = p.progress.length
+        ? p.progress.map(pr => `
+            <div class="prog-item">
+                <div class="prog-header">
+                    <span>${pr.name}</span>
+                    <span class="prog-pct">${pr.label}</span>
+                </div>
+                <div class="prog-track">
+                    <div class="prog-fill" style="width: ${pr.val}%"></div>
+                </div>
+            </div>
+        `).join('')
+        : `<p style="color:var(--text-secondary);">Nessun progresso in corso registrato.</p>`;
+
+    pane.innerHTML = `
+        <div class="detail-animate">
+            <div class="player-Banner">
+                <div class="player-identity">
+                    <div class="gd-avatar-large">
+                        <img id="large-gd-icon" src="${directIcon}" onerror="this.src='${p.fallbackIcon}'" alt="${p.name}">
+                    </div>
+                    <div class="player-title-box">
+                        <h1>
+                            <span class="rank-pill">#${idx + 1}</span>
+                            ${p.name}
+                            ${p.flag ? `<img src="${p.flag}" style="width:32px; border-radius:4px;">` : ''}
+                        </h1>
+                        <div class="gd-badge-status" id="gd-api-status">
+                            <i class="fas fa-cube"></i> GD Profile: <strong>${p.gdSearchName}</strong> &bull; Hardest: <strong>${p.hardest}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-points-badge">
+                    <span>Punteggio Totale</span>
+                    <strong>${p.pts} PT</strong>
+                </div>
+            </div>
+
+            <!-- Sezioni Separate: VERIFIED vs UNVERIFIED -->
+            <div class="player-sections-grid">
+                <div class="info-panel">
+                    <div class="badge-tag badge-verified"><i class="fas fa-circle-check"></i> Verified Records</div>
+                    <p style="font-size:1.05rem; font-weight:600; margin-top:6px;">${p.verified}</p>
+                </div>
+                <div class="info-panel">
+                    <div class="badge-tag badge-unverified"><i class="fas fa-triangle-exclamation"></i> Unverified Records</div>
+                    <p style="font-size:1.05rem; font-weight:600; margin-top:6px;">${p.unverified}</p>
+                </div>
+            </div>
+
+            <div class="player-sections-grid">
+                <div class="info-panel">
+                    <h3><i class="fas fa-list-check" style="color:var(--accent);"></i> Livelli Completati (${p.completed.length})</h3>
+                    <div class="completed-pills">
+                        ${completedHtml}
+                    </div>
+                </div>
+                <div class="info-panel">
+                    <h3><i class="fas fa-bolt" style="color:var(--gold);"></i> Progressi in Corso</h3>
+                    ${progressHtml}
+                </div>
+            </div>
+        </div>
+    `;
+
+    const gdData = await fetchGDIcon(p);
+    const largeImg = document.getElementById("large-gd-icon");
+    const statusEl = document.getElementById("gd-api-status");
+    if (largeImg && gdData.found) {
+        largeImg.src = gdData.url;
+        if (statusEl) {
+            statusEl.innerHTML = `<i class="fas fa-cube"></i> GD DB Sync: <strong>${p.gdSearchName}</strong> (${gdData.stars || 0}★ | ${gdData.demons || 0}👹) &bull; Hardest: <strong>${p.hardest}</strong>`;
+        }
+    }
+}
+
+// =========================================
+// 5. SEZIONE DA VERIFICARE & HELPER SALTI
+// =========================================
+const upcoming = [
+    { name: "Shitty bloodbath", wr: "31% (53-100%) - SoyXmirzioo", pct: 31 },
+    { name: "Grimwire", wr: "66% - Megadaniel", pct: 66 },
+    { name: "Merz circles", wr: "16% - Megadaniel", pct: 16 },
+    { name: "Lutto semplificato", wr: "30% - SoyXmirzioo", pct: 30 },
+    { name: "Sakupen kirkles (Daniel's copy)", wr: "67% - Megadaniel", pct: 67 },
+    { name: "Sakupen kirkles (Marzio's copy)", wr: "67% - SoyXmirzioo", pct: 67 },
+    { name: "Shitty limbo", wr: "71% - Megadaniel", pct: 71 },
+    { name: "Crudo calcestruzzo", wr: "22% - Megadaniel", pct: 22 },
+    { name: "Sakupen end EZ", wr: "63% - Megadaniel / SoyXmirzioo", pct: 63 }
+];
+
+const upContainer = document.getElementById("upcoming-container");
+upcoming.forEach(u => {
+    upContainer.innerHTML += `
+        <div class="upcoming-card">
+            <h3 style="margin-bottom:0.8rem; display:flex; align-items:center; gap:10px;">
+                <i class="fas fa-screwdriver-wrench" style="color:var(--accent);"></i> ${u.name}
+            </h3>
+            <div class="prog-header">
+                <span style="color:var(--text-secondary);">World Record Attuale</span>
+                <span class="prog-pct">${u.wr}</span>
+            </div>
+            <div class="prog-track">
+                <div class="prog-fill" style="width: ${u.pct}%"></div>
+            </div>
+        </div>
+    `;
+});
+
+// Funzioni per saltare da un livello a un giocatore e viceversa
+window.jumpToLevel = function(levelName) {
+    const found = levels.find(l => l.name.toLowerCase() === levelName.toLowerCase());
+    if (!found) return;
+    selectedLevelRank = found.rank;
+    document.querySelector('[data-target="main-list"]').click();
+    renderLevelsList();
+    renderLevelDetail(found);
+};
+
+window.jumpToPlayer = function(playerName) {
+    const idx = players.findIndex(p => p.name.toLowerCase() === playerName.toLowerCase());
+    if (idx === -1) return;
+    selectedPlayerIndex = idx;
+    document.querySelector('[data-target="stats-viewer"]').click();
+    renderPlayersList();
+    renderPlayerDetail(players[idx], idx);
+};
+
+// =========================================
+// 6. RICERCA, NAVIGAZIONE E TEMA
+// =========================================
+document.getElementById("level-search").addEventListener("input", (e) => {
+    renderLevelsList(e.target.value);
+});
+
+document.getElementById("player-search").addEventListener("input", (e) => {
+    renderPlayersList(e.target.value);
+});
+
+const navBtns = document.querySelectorAll('.nav-btn');
+const pages = document.querySelectorAll('.page-section');
+
+navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        navBtns.forEach(b => b.classList.remove('active'));
+        pages.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+    });
+});
+
+// Dark/Light Mode Toggle
+const themeBtn = document.getElementById('theme-toggle');
+const icon = themeBtn.querySelector('i');
+const body = document.body;
+
+if (localStorage.getItem('pointer-theme') === 'light') {
+    body.classList.replace('dark-mode', 'light-mode');
+    icon.className = 'fas fa-moon';
+}
+
+themeBtn.addEventListener('click', () => {
+    if (body.classList.contains('dark-mode')) {
+        body.classList.replace('dark-mode', 'light-mode');
+        icon.className = 'fas fa-moon';
+        localStorage.setItem('pointer-theme', 'light');
+    } else {
+        body.classList.replace('light-mode', 'dark-mode');
+        icon.className = 'fas fa-sun';
+        localStorage.setItem('pointer-theme', 'dark');
+    }
+});
+
+// Inizializzazione all'avvio
+renderLevelsList();
+renderLevelDetail(levels[0]);
+renderPlayersList();
+renderPlayerDetail(players[0], 0);
