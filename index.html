@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Italian Demonlist - Official Pointercrate</title>
+    <title>NBTR List - Never To Be Rated List</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -770,8 +770,8 @@
         <div class="nav-brand">
             <div class="brand-icon"><i class="fas fa-fire-flame-curved"></i></div>
             <div class="brand-text">
-                <span class="brand-title">DEMONLIST</span>
-                <span class="brand-sub">ITALIAN COMMUNITY</span>
+                <span class="brand-title">NBTR LIST</span>
+                <span class="brand-sub">NEVER TO BE RATED LIST</span>
             </div>
         </div>
         <nav class="nav-links">
@@ -833,7 +833,7 @@
         <section id="da-verificare" class="page-section">
             <div class="section-banner">
                 <h1><i class="fas fa-hammer"></i> Progetti in Verifica</h1>
-                <p>I futuri demoni della lista attualmente in fase di verifica e i relativi World Record attuali.</p>
+                <p>I futuri livelli della NBTR List attualmente in fase di verifica e i relativi World Record attuali.</p>
             </div>
             <div id="upcoming-container" class="upcoming-grid"></div>
         </section>
@@ -842,7 +842,7 @@
 
     <script>
         // =========================================
-        // 1. DATABASE LIVELLI (Con nuovi Top 1 e Top 2)
+        // 1. DATABASE LIVELLI (NBTR LIST)
         // =========================================
         const levels = [
             { rank: 1, name: "Daniel Never clear", creator: "SoyXmirzioo", verifier: "SoyXmirzioo", id: "150990043", diff: "Hard demon", pts: 400, yt: "toAdhnXzO7c" },
@@ -936,6 +936,30 @@
                 progress: [
                     { name: "Better plane (unnerfed)", label: "30%", val: 30 }
                 ]
+            },
+            {
+                name: "fasghki",
+                gdSearchName: "fasghki",
+                fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=35&col1=12&col2=9&glow=1",
+                flag: "",
+                verified: "Record personale: Spyke Frost",
+                unverified: "Nessuno",
+                hardest: "Spyke Frost",
+                completed: ["Spyke Frost"],
+                pts: getPts(["Spyke Frost"]),
+                progress: []
+            },
+            {
+                name: "Fedazzo14",
+                gdSearchName: "Fedazzo14",
+                fallbackIcon: "https://gdbrowser.com/icon/icon?form=cube&icon=18&col1=5&col2=11&glow=1",
+                flag: "",
+                verified: "Record personale: Splatfest (OG)",
+                unverified: "Nessuno",
+                hardest: "Splatfest (OG)",
+                completed: ["Splatfest (OG)"],
+                pts: getPts(["Splatfest (OG)"]),
+                progress: []
             },
             {
                 name: "Diego calvani",
@@ -1056,7 +1080,7 @@
                         <div class="detail-title-group">
                             <h1><span class="rank-pill">#${lvl.rank}</span> ${lvl.name}</h1>
                             <p style="color:var(--text-secondary); margin-top:8px; font-size:1.05rem;">
-                                Pubblicato nella Demonlist Ufficiale &bull; Difficoltà: <strong style="color:var(--text-primary);">${lvl.diff}</strong>
+                                Pubblicato nella NBTR List (Never To Be Rated) &bull; Difficoltà: <strong style="color:var(--text-primary);">${lvl.diff}</strong>
                             </p>
                         </div>
                         <div class="detail-points-badge">
