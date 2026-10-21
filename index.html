@@ -3,88 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Italian Demonlist</title>
+    <title>Italian Demonlist - Official Pointercrate</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode">
 
+    <!-- Background Ambient Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
     <!-- Header / Navbar -->
     <header class="navbar">
         <div class="nav-brand">
-            <i class="fas fa-skull"></i> DEMONLIST
+            <div class="brand-icon"><i class="fas fa-fire-flame-curved"></i></div>
+            <div class="brand-text">
+                <span class="brand-title">DEMONLIST</span>
+                <span class="brand-sub">ITALIAN COMMUNITY</span>
+            </div>
         </div>
         <nav class="nav-links">
-            <button class="nav-btn active" data-target="main-list">Main List</button>
-            <button class="nav-btn" data-target="stats-viewer">Stats Viewer</button>
-            <button class="nav-btn" data-target="da-verificare">Da Verificare</button>
-            <button id="theme-toggle" class="theme-btn" title="Toggle Dark/Light Mode">
-                <i class="fas fa-sun"></i>
+            <button class="nav-btn active" data-target="main-list">
+                <i class="fas fa-list-ol"></i> Main List
+            </button>
+            <button class="nav-btn" data-target="stats-viewer">
+                <i class="fas fa-ranking-star"></i> Stats Viewer
+            </button>
+            <button class="nav-btn" data-target="da-verificare">
+                <i class="fas fa-hourglass-half"></i> Da Verificare
             </button>
         </nav>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="theme-btn" title="Cambia Tema">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="content">
         
-        <!-- MAIN LIST SECTION -->
+        <!-- SECTION 1: MAIN LIST (SPLIT VIEW) -->
         <section id="main-list" class="page-section active">
-            <div class="section-header">
-                <h1>Main List</h1>
-                <p>La classifica dei livelli più difficili completati dalla community.</p>
-                <p><small><em>Clicca su un livello per aprire la scheda completa.</em></small></p>
-            </div>
-            <div id="levels-container" class="levels-container">
-                <!-- Generato da JS -->
+            <div class="split-layout">
+                <!-- Colonna Sinistra: Lista Livelli -->
+                <aside class="sidebar-list">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="level-search" placeholder="Cerca un livello o creatore...">
+                    </div>
+                    <div id="levels-list-container" class="scrollable-list">
+                        <!-- Generato da JS -->
+                    </div>
+                </aside>
+
+                <!-- Colonna Destra: Dettaglio Livello Grande -->
+                <div class="detail-pane" id="level-detail-pane">
+                    <!-- Generato da JS -->
+                </div>
             </div>
         </section>
 
-        <!-- STATS VIEWER SECTION -->
+        <!-- SECTION 2: STATS VIEWER (SPLIT VIEW) -->
         <section id="stats-viewer" class="page-section">
-            <div class="section-header">
-                <h1>Stats Viewer</h1>
-                <p>I giocatori con più punti accumulati sulla lista.</p>
-            </div>
-            <div id="players-container" class="players-container">
-                <!-- Generato da JS -->
+            <div class="split-layout">
+                <!-- Colonna Sinistra: Classifica Giocatori -->
+                <aside class="sidebar-list">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="player-search" placeholder="Cerca giocatore...">
+                    </div>
+                    <div id="players-list-container" class="scrollable-list">
+                        <!-- Generato da JS -->
+                    </div>
+                </aside>
+
+                <!-- Colonna Destra: Profilo Giocatore & GD Icon -->
+                <div class="detail-pane" id="player-detail-pane">
+                    <!-- Generato da JS -->
+                </div>
             </div>
         </section>
 
-        <!-- DA VERIFICARE SECTION -->
+        <!-- SECTION 3: DA VERIFICARE -->
         <section id="da-verificare" class="page-section">
-            <div class="section-header">
-                <h1>Da Verificare</h1>
-                <p>Livelli in fase di verifica o con record mondiali (WR) non ancora completati.</p>
+            <div class="section-banner">
+                <h1><i class="fas fa-hammer"></i> Progetti in Verifica</h1>
+                <p>I futuri demoni della lista attualmente in fase di verifica e i relativi World Record attuali.</p>
             </div>
-            <div id="upcoming-container" class="upcoming-container">
+            <div id="upcoming-container" class="upcoming-grid">
                 <!-- Generato da JS -->
             </div>
         </section>
-    </main>
 
-    <!-- MODAL PER IL LIVELLO -->
-    <div id="level-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modal-media" class="modal-media-container"></div>
-            <div class="modal-info">
-                <div class="modal-header">
-                    <h2 id="modal-title">Nome Livello</h2>
-                    <span id="modal-points" class="modal-points">0 pt</span>
-                </div>
-                <p id="modal-creators" class="modal-creators"></p>
-                <div class="modal-stats">
-                    <div class="stat-box"><i class="fas fa-fingerprint"></i> ID: <span id="modal-id"></span></div>
-                    <div class="stat-box"><i class="fas fa-skull"></i> Difficoltà: <span id="modal-diff"></span></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
